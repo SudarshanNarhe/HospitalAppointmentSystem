@@ -1,0 +1,26 @@
+.container{
+    margin-top: 40px;
+    max-width: 600px;
+}
+.form-group{
+    padding: 15px;
+}
+
+p{
+    font-weight: 450;
+    color: red;
+}
+
+button{
+    margin-top: 10px;
+    margin-left: 90px;
+}
+
+label{
+    font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;  
+}
+
+.radio{
+    font-size: medium;
+}
