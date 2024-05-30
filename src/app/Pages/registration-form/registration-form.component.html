@@ -1,6 +1,7 @@
+<!-- style="background-color: rgb(243, 241, 241);" -->
 
 <div class="container">
-   <form class="mat-elevation-z7" style="background-color: rgb(243, 241, 241);" [formGroup]="userForm" (ngSubmit)="saveUser()">
+   <form class="mat-elevation-z7" style="background-color: rgb(208, 204, 240);" [formGroup]="userForm" (ngSubmit)="saveUser()">
         <div class="form-group">
             <label for="firstName" class="form-label">FirstName : </label>
             <input type="text" formControlName="firstName"  class="form-control">
@@ -66,9 +67,20 @@
                 <p *ngIf="userForm.controls['userrole'].errors?.['required']">User role is required</p>
               </div>
         </div>
+        <div *ngIf="showSpecilist" class="form-group">
+            <label for="SelectSpecialities" class="form-label">Select Specialities : </label>
+            <mat-form-field appearance="fill">
+                <mat-label>Select Specialities</mat-label>
+                <mat-select [formControl]="selectedSpecialitiesControl" multiple>
+                  <mat-option *ngFor="let speciality of specilities" [value]="speciality">
+                    {{ speciality.specialtyName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
         <div class="form-group mb-3">
             <button type="submit" mat-raised-button color="primary">Register</button>
-            <button type="reset" mat-raised-button color="warn">Reset</button>
+            <button type="reset" mat-raised-button color="warn" (click)="hideSpecilist()">Reset</button>
         </div>
    </form>
 </div>

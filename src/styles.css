@@ -1,4 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
+
 body { margin: 0;  font-family: 'Times New Roman', Times, serif;   }
+
+body {
+    background-image: url('assets/HospitalManaSystem3.jpg');
+    background-size: cover; /* Ensure the image covers the entire viewport */
+    background-repeat: no-repeat; /* Ensure the image does not repeat */
+    background-attachment: fixed; /* Ensure the background stays fixed during scroll */
+    background-position: center; /* Center the background image */
+  
+    /* Create an overlay to reduce opacity */
+    position: relative;
+    z-index: 0;
+  }
+  
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0); /* Adjust the opacity and color as needed */
+    z-index: -1;
+    pointer-events: none; /* Ensure the overlay does not interfere with other elements */
+  }

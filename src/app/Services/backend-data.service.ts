@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Users } from '../Model/users';
+import { Specility } from '../Model/Specility';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendDataService {
 
-  url = "http://localhost:44424/api/";
+ private url = "http://localhost:44424/api/";
 
   constructor(private http : HttpClient) { }
 
@@ -31,8 +32,16 @@ export class BackendDataService {
     }
   }
 
-  login(username:string, password:string){
+  login(username:string, password:string):Observable<any>{
     return this.http.get<any>(`${this.url}User/Login/${username}/${password}`).pipe(catchError(this.errorHandler));
+  }
+
+  getSession():Observable<any>{
+    return this.http.get<any>(this.url+"User/GetSession").pipe(catchError(this.errorHandler));
+  }
+
+  getSpecilities():Observable<Specility[]>{
+    return this.http.get<Specility[]>(this.url+"Specility/GetSpecility").pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error:any){
@@ -41,7 +50,7 @@ export class BackendDataService {
         errorMsg = error.error.message;
       }
       else{
-        errorMsg = `errorcode : :$(error.status)\nMessage:${error.message}`
+        errorMsg = `errorcode : :${error.status}\nMessage:${error.message}`
       }
       console.log(errorMsg);
       return throwError(()=>new Error(errorMsg));

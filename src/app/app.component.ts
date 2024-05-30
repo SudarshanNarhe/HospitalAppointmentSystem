@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { RegistrationFormComponent } from './Pages/registration-form/registration-form.component';
-import { LoginPageComponent } from './Pages/login-page/login-page.component';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,RegistrationFormComponent,LoginPageComponent],
+  imports: [RouterOutlet,MatIconModule,RouterModule,MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'HospitalAppointmentSystem';
+
+  path="assets/HospitalManaSystem.jpg"
 }
