@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Users } from '../Model/users';
-import { Specility } from '../Model/Specility';
+import { Users  } from '../Model/users';
+import { Doctor } from '../Model/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ import { Specility } from '../Model/Specility';
 export class BackendDataService {
 
  private url = "http://localhost:44424/api/";
+
+ user! : Users;
 
   constructor(private http : HttpClient) { }
 
@@ -32,17 +34,26 @@ export class BackendDataService {
     }
   }
 
-  login(username:string, password:string):Observable<any>{
-    return this.http.get<any>(`${this.url}User/Login/${username}/${password}`).pipe(catchError(this.errorHandler));
+  login(username : string, password : string):Observable<any>{
+     this.user = new Users(0,"","",username,"","",password,"",0);
+    return this.http.post<any>(this.url+"User/Login",this.user).pipe(catchError(this.errorHandler));
   }
 
   getSession():Observable<any>{
     return this.http.get<any>(this.url+"User/GetSession").pipe(catchError(this.errorHandler));
   }
 
-  getSpecilities():Observable<Specility[]>{
-    return this.http.get<Specility[]>(this.url+"Specility/GetSpecility").pipe(catchError(this.errorHandler));
+  getSpecilities():Observable<any[]>{
+    return this.http.get<any[]>(this.url+"Specility/GetSpecility").pipe(catchError(this.errorHandler));
   }
+
+   addDoctor(doctor :Doctor):Observable<Doctor>{
+     return this.http.post<Doctor>(`${this.url}Doctor/AddDoctor`,doctor).pipe(catchError(this.errorHandler));
+   }
+
+   getUserByName(name : string):Observable<Users>{
+      return this.http.get<Users>(`${this.url}User/GetUserByName/${name}`).pipe(catchError(this.errorHandler));
+   }
 
   errorHandler(error:any){
       let errorMsg='';

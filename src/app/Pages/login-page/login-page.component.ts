@@ -41,8 +41,8 @@ export class LoginPageComponent implements OnInit{
     onSubmit(){
       if(this.loginForm.valid){
         console.log(this.loginForm.value);
-        const username:string = this.loginForm.get('userName')?.value;
-        const password:string = this.loginForm.get('password')?.value;
+        const username = this.loginForm.get('userName')?.value;
+        const password = this.loginForm.get('password')?.value;
         this.service.login(username,password).pipe(catchError(error => {
           console.error('Error occurred during login:', error);
           alert('An Internal Server error occurred during login. Please try again later.');
@@ -59,8 +59,6 @@ export class LoginPageComponent implements OnInit{
           {
               console.log(this.user);
               console.log(this.user.userName);
-              console.log(username);
-              console.log(password)
               console.log(this.user.password);
               if(this.user.userName===username && this.user.password===password){
                 console.log('in if');

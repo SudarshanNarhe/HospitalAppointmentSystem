@@ -30,4 +30,5 @@ export class Users {
         this.userrole = userrole;
         this.userrole_id = userrole_id;
       }
+
 }

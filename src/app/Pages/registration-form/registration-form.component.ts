@@ -7,9 +7,11 @@ import { CommonModule } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatListModule } from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
-import { Specility } from '../../Model/Specility';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Doctor } from '../../Model/doctor';
+import { Specility } from '../../Model/specility';
+import { Users } from '../../Model/users';
 
 @Component({
   selector: 'app-registration-form',
@@ -35,6 +37,8 @@ export class RegistrationFormComponent implements OnInit{
       specilities! : Specility[];
       showSpecilist : boolean = false;
       selectedSpecialitiesControl = new FormControl([]);
+      user!:Users;
+      doctor!:Doctor;
 
       constructor(private builder : FormBuilder,private service : BackendDataService)
       {}
@@ -102,15 +106,15 @@ export class RegistrationFormComponent implements OnInit{
         this.showSpecilist=false;
         this.selectedSpecialitiesControl.reset([]);
       }
+
       saveUser(){
         console.log(this.selectRole);
-        console.log(this.selectedSpecialitiesControl.value);
+
           if(this.userForm.valid){
             console.log(this.userForm.value);
+          
             this.service.addUser(this.userForm.value).subscribe(res=>{
-              alert('Form Submitted Successful');
-              this.hideSpecilist();
-              this.userForm.reset();
+              this.saveDoctor();
             } 
             );
            
@@ -118,5 +122,38 @@ export class RegistrationFormComponent implements OnInit{
           else{
             this.userForm.markAllAsTouched();
           }
+      }
+
+      saveDoctor(){
+        const name = this.userForm.get('email')?.value;
+        this.service.getUserByName(name).subscribe(res =>{
+          this.user=res;
+          console.log(this.user)
+         console.log(this.selectedSpecialitiesControl.value);
+        const selectedSpecialities = this.selectedSpecialitiesControl.value;
+       // Check if the value is an array and transform it
+        if (Array.isArray(selectedSpecialities)) {
+          const transformedSpecialities = selectedSpecialities.map(speciality => {
+            // Create a new object without the specialityName
+            const { specialtyID, specialtyName } = speciality;
+            return specialtyID;
+          });
+
+          // Print the transformed specialities
+          transformedSpecialities.forEach(speciality => {
+             this.doctor=new Doctor(0,this.user.userId,speciality);
+            console.log(speciality);
+            console.log(this.doctor);
+            this.service.addDoctor(this.doctor).subscribe(res =>{
+              alert('Form Submitted Successful');
+              this.hideSpecilist();
+              this.userForm.reset();
+            });
+          });
+
+        }
+
+        });
+          
       }
 }

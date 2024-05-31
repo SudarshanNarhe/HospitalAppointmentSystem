@@ -12,11 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class DoctorPatientsRegisterComponent implements OnInit{
 
+     // user! : string;
+      
         constructor(private service : BackendDataService){
 
         }
 
         ngOnInit(): void {
-            
+           // this.service.getSession().subscribe(res =>this.user=res);
         }
 }
