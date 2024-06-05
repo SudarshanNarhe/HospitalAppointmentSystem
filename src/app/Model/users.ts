@@ -6,8 +6,10 @@ export class Users {
     email : string;
     contact : string;
     password : string;
-    userrole : string;
+    dateOfBirth :string;
+    gender : string;
     userrole_id : number;
+    userrole : string;
 
     constructor(
          userId: number,
@@ -17,8 +19,10 @@ export class Users {
          email: string,
          contact: string,
          password: string,
-         userrole: string,
-         userrole_id: number
+         dateOfBirth:string,
+         gender: string,
+         userrole_id: number,
+         userrole : string
       ) {
         this.userId = userId;
         this.firstName = firstName;
@@ -27,8 +31,10 @@ export class Users {
         this.email = email;
         this.contact = contact;
         this.password = password;
-        this.userrole = userrole;
+        this.dateOfBirth=dateOfBirth;
+        this.gender = gender;
         this.userrole_id = userrole_id;
+        this.userrole = userrole;
       }
 
 }

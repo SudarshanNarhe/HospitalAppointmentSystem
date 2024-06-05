@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Users  } from '../Model/users';
 import { Doctor } from '../Model/doctor';
+import { Patient } from '../Model/patient';
 
 @Injectable({
   providedIn: 'root'
@@ -20,22 +21,13 @@ export class BackendDataService {
   }
 
   addUser(user : Users):Observable<any>{
-    if(user.userrole==='admin'){
-      user.userrole_id=1;
-      return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
-    }
-    else if(user.userrole==='doctor'){
-      user.userrole_id=3;
-      return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
-    } 
-    else{
-      user.userrole_id=2;
-      return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
-    }
+    user.userrole_id=2;
+    return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
+
   }
 
   login(username : string, password : string):Observable<any>{
-     this.user = new Users(0,"","",username,"","",password,"",0);
+   //  this.user = new Users(0,"","",username,"","",password,"",0);
     return this.http.post<any>(this.url+"User/Login",this.user).pipe(catchError(this.errorHandler));
   }
 
@@ -53,6 +45,10 @@ export class BackendDataService {
 
    getUserByName(name : string):Observable<Users>{
       return this.http.get<Users>(`${this.url}User/GetUserByName/${name}`).pipe(catchError(this.errorHandler));
+   }
+
+   addPatient(patient : Patient){
+     return this.http.post<Patient>(`${this.url}Patient/AddPatient`,patient).pipe(catchError(this.errorHandler));
    }
 
   errorHandler(error:any){
