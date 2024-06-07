@@ -1,7 +1,49 @@
-
-<div>
-   <form>
-        <h4>Username</h4>
-        
-   </form>
+<div class="container">
+   <button mat-raised-button [routerLink]="['/register']" style="background-color: rgb(140, 187, 39); margin-bottom: 20px;">Register New User</button>
+   <table>
+      <thead>
+         <tr>
+            <th>srno</th>
+            <th>userID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>email</th>
+            <th>contact</th>
+            <th>DOB</th>
+            <th>gender</th>
+            <th>userRole</th>
+            <th>Actions</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let user of users; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{user.userId}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.userName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.contact}}</td>
+            <td>{{user.dateOfBirth}}</td>
+            <td>{{user.gender}}</td>
+            <td>{{user.userrole_id}}</td>
+            <th>
+               <button 
+               mat-raised-button 
+               style="background-color: rgb(50, 86, 184); color: white; margin-right: 8px;"
+               >
+               Update
+              </button>
+               <button 
+               mat-raised-button 
+               style="background-color: rgb(255, 0, 0); color: white;"
+               (click)="deleteUser(user.userId)" >
+               Delete
+               </button>
+            </th>
+         </tr>
+      </tbody>
+   </table>
 </div>
+

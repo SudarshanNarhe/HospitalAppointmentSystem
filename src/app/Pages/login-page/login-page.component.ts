@@ -45,7 +45,7 @@ export class LoginPageComponent implements OnInit{
         const password = this.loginForm.get('password')?.value;
         this.service.login(username,password).pipe(catchError(error => {
           console.error('Error occurred during login:', error);
-          alert('An Internal Server error occurred during login. Please try again later.');
+          alert('Something else wrong. Please try again later.');
           this.loginForm.reset();
           // Return an observable that emits null to ensure the rest of the code handles the error
           return of(null);
@@ -61,7 +61,9 @@ export class LoginPageComponent implements OnInit{
               console.log(this.user.userName);
               console.log(this.user.password);
               if(this.user.userName===username && this.user.password===password){
-                console.log('in if');
+                // this.service.setSession(username).subscribe(res=>{
+                //   console.log(res);
+                // })
                 alert('Login Successful');
                 this.loginForm.reset();
                 this.router.navigate(['/PDregister']);

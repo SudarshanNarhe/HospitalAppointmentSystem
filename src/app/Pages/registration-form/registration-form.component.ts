@@ -24,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { Patient } from '../../Model/patient';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-form',
@@ -66,7 +67,8 @@ export class RegistrationFormComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     private service: BackendDataService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router : Router
   ) {
     this.startAt = new Date(1990, 0, 1);
   }
@@ -176,7 +178,8 @@ export class RegistrationFormComponent implements OnInit {
         // }
 
         alert('User Register Successful');
-        this.userForm.reset();  
+        this.userForm.reset();
+        this.router.navigate(['/login']);
 
       });
     //  this.saveAdmin();

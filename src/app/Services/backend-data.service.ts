@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { Users  } from '../Model/users';
 import { Doctor } from '../Model/doctor';
 import { Patient } from '../Model/patient';
+import { Login } from '../Model/login';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class BackendDataService {
 
  private url = "http://localhost:44424/api/";
 
- user! : Users;
+ //user! : Users;
+ loginUser! : Login;
 
   constructor(private http : HttpClient) { }
 
@@ -20,15 +22,27 @@ export class BackendDataService {
     return this.http.get<any>(this.url+"UserRole/GetUserRoles").pipe(catchError(this.errorHandler));
   }
 
+  //add user 
   addUser(user : Users):Observable<any>{
-    user.userrole_id=2;
+    user.userrole_id=2
     return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
 
   }
+  //delete user
+  deleteUser(userId: number){
+    return this.http.delete<any>(`${this.url}User/DeleteUser/${userId}`).pipe(catchError(this.errorHandler));
+  }
+  getAllUsers():Observable<any>{
+    return this.http.get<any>(this.url+"User/GetUsers").pipe(catchError(this.errorHandler));
+  }
 
   login(username : string, password : string):Observable<any>{
-   //  this.user = new Users(0,"","",username,"","",password,"",0);
-    return this.http.post<any>(this.url+"User/Login",this.user).pipe(catchError(this.errorHandler));
+    this.loginUser = new Login(username,password);
+    return this.http.post<any>(this.url+"User/Login",this.loginUser).pipe(catchError(this.errorHandler));
+  }
+
+  setSession(username:string):Observable<any>{
+    return this.http.post<any>(`${this.url}User/SetSession/${username}`,username).pipe(catchError(this.errorHandler));
   }
 
   getSession():Observable<any>{
@@ -50,6 +64,7 @@ export class BackendDataService {
    addPatient(patient : Patient){
      return this.http.post<Patient>(`${this.url}Patient/AddPatient`,patient).pipe(catchError(this.errorHandler));
    }
+
 
   errorHandler(error:any){
       let errorMsg='';
