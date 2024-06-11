@@ -1,3 +1,16 @@
+<div class="navigation">
+  <div>
+      <a><mat-icon>local_hospital</mat-icon>Hospital Appointment</a>
+  </div>
+  <button mat-raised-button aria-current="page" href="#">Home</button>
+  <button mat-raised-button aria-current="page" [routerLink]="['/doctors']">Doctors</button>
+  <button mat-raised-button aria-current="page"[routerLink]="['/patients']">Patients</button>
+  <button mat-raised-button aria-current="page" href="#">About Us</button>
+  <div class="navbutton">
+      <button mat-raised-button [routerLink]="['/login']">Log in</button>
+      <button mat-raised-button [routerLink]="['/register']">Sign up</button>
+  </div>
+</div>
 
 <div class="container">
       <form class="mat-elevation-z7" style="background-color: rgb(208, 204, 240);" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -17,8 +30,8 @@
           </div>
         </div>
         <div class="form-group">
-        <button mat-raised-button color="primary" type="submit">Login</button>
-        <button mat-raised-button type="button">Forget Password</button>
+        <button mat-raised-button color="primary" type="submit" style=" margin-top: 5px; margin-left: 70px;">Login</button>
+        <button mat-raised-button type="button" style=" margin-top: 5px; margin-left: 70px;">Forget Password</button>
         <!-- <button mat-raised-button [routerLink]="['/register']" type="button">Create Account</button> -->
         </div>
     </form>

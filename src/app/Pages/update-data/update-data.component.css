@@ -1,0 +1,13 @@
+
+p{
+    font-weight: 450;
+    color: red;
+}
+
+label{
+    color: black;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}

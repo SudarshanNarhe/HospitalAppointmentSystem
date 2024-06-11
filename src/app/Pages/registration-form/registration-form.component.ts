@@ -24,7 +24,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { Patient } from '../../Model/patient';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { DoctorsComponent } from '../doctors/doctors.component';
 
 @Component({
   selector: 'app-registration-form',
@@ -41,7 +43,9 @@ import { Router } from '@angular/router';
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    RouterModule
   ],
   providers: [BackendDataService, DatePipe],
   templateUrl: './registration-form.component.html',
@@ -101,7 +105,7 @@ export class RegistrationFormComponent implements OnInit {
       ],
       dateOfBirth: ['',Validators.required],
       gender: ['',Validators.required]
-    //  securityKey:new FormControl('')
+    
     });
   }
 

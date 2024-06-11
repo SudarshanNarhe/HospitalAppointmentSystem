@@ -1,5 +1,26 @@
 <!-- style="background-color: rgb(243, 241, 241);" -->
 
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid  d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#"><mat-icon>local_hospital</mat-icon>Hospital Appointment</a>
+        <div class="collapse navbar-collapse">
+          <div class="navbar-nav me-auto d-flex align-items-center">
+            <button mat-raised-button aria-current="page" href="#">Home</button>
+            <button mat-raised-button aria-current="page" [routerLink]="['/doctors']">Doctors</button>
+            <button mat-raised-button aria-current="page"[routerLink]="['/patients']">Patients</button>
+            <button mat-raised-button aria-current="page" href="#">About Us</button>
+          </div>
+          <div class="d-flex ml-auto">
+              <button mat-raised-button [routerLink]="['/login']">Log in</button>
+              <button mat-raised-button [routerLink]="['/register']">Sign up</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+  </div>
+
 <div class="container">
    <form class="mat-elevation-z7" style="background-color: rgb(208, 204, 240);" [formGroup]="userForm" (ngSubmit)="saveUser()">
         <div class="form-group">
@@ -110,8 +131,8 @@
             <!-- </div>
         </div> -->
         <div class="form-group mb-3">
-            <button type="submit" mat-raised-button color="primary" >Register</button>
-            <button type="reset" mat-raised-button color="warn">Reset</button>
+            <button type="submit" mat-raised-button color="primary" class="formbutton">Register</button>
+            <button type="reset" mat-raised-button color="warn" class="formbutton">Reset</button>
         </div>
    </form>
 </div>

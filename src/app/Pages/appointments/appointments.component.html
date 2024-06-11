@@ -1,0 +1,16 @@
+
+<div class="navigation">
+    <div>
+        <a href="#"><mat-icon>local_hospital</mat-icon>Hospital Appointment</a>
+    </div>
+    <button mat-raised-button aria-current="page" href="#">Home</button>
+    <button mat-raised-button aria-current="page" [routerLink]="['/doctors']">Doctors</button>
+    <!-- <button mat-raised-button aria-current="page"[routerLink]="['/patients']">Patients</button> -->
+    <button mat-raised-button aria-current="page" href="#">About Us</button>
+    <div class="navbutton">
+       <!-- <a class="username" href="#"><mat-icon>person</mat-icon>{{user}}</a> -->
+       <button mat-raised-button (click)="logout()">Logout</button>
+    </div>
+ </div>
+
+<h2>Appointment</h2>

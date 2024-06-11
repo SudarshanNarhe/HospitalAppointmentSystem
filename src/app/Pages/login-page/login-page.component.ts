@@ -7,12 +7,13 @@ import { BackendDataService } from '../../Services/backend-data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { catchError, of } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,RouterModule,RouterOutlet],
+  imports: [CommonModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,RouterModule,RouterOutlet,MatIconModule],
   providers : [BackendDataService],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
@@ -61,12 +62,16 @@ export class LoginPageComponent implements OnInit{
               console.log(this.user.userName);
               console.log(this.user.password);
               if(this.user.userName===username && this.user.password===password){
-                // this.service.setSession(username).subscribe(res=>{
-                //   console.log(res);
-                // })
-                alert('Login Successful');
-                this.loginForm.reset();
-                this.router.navigate(['/PDregister']);
+                this.service.setSession(this.user).subscribe(res=>{
+                  console.log(res);
+                  alert('Login Successful');
+                  this.loginForm.reset();
+                  if(this.user.userrole_id==1){
+                    this.router.navigate(['/patients']);
+                  }
+                  else if (this.user.userrole_id==3)
+                  this.router.navigate(['/appointment']);
+                })
               }
            }
         })

@@ -1,0 +1,66 @@
+<div class="navigation">
+    <div>
+        <a href="#"><mat-icon>local_hospital</mat-icon>Hospital Appointment</a>
+    </div>
+    <button mat-raised-button aria-current="page" href="#">Home</button>
+    <button mat-raised-button aria-current="page" [routerLink]="['/doctors']">Doctors</button>
+    <button mat-raised-button aria-current="page"[routerLink]="['/patients']">Patients</button>
+    <button mat-raised-button aria-current="page" href="#">About Us</button>
+    <div class="navbutton">
+       <a class="username" href="#"><mat-icon>person</mat-icon>{{user}}</a>
+       <button mat-raised-button (click)="logout()">Logout</button>
+    </div>
+ </div>
+
+ <div class="container">
+    <button mat-raised-button [routerLink]="['/register']" style="background-color: rgb(140, 187, 39); margin-bottom: 20px;" (click)="saveDoctor()">Register New Doctor</button>
+    <table>
+       <thead>
+          <tr>
+             <th>srno</th>
+             <th>doctorID</th>
+             <th>First Name</th>
+             <th>Last Name</th>
+             <th>Username</th>
+             <th>email</th>
+             <th>contact</th>
+             <th>DOB</th>
+             <th>gender</th>
+             <th>Specility</th> 
+             <th>Actions</th>
+          </tr>
+       </thead>
+       <tbody>
+          <tr *ngFor="let doc of doctors; let i=index">
+             <td>{{i+1}}</td>
+             <td>{{doc.doctorID}}</td>
+             <td>{{docuser.firstName}}</td>
+             <td>{{docuser.lastName}}</td>
+             <td>{{docuser.userName}}</td>
+             <td>{{docuser.email}}</td>
+             <td>{{docuser.contact}}</td>
+             <td>{{docuser.dateOfBirth}}</td>
+             <td>{{docuser.gender}}</td>
+           <!--  <td *ngIf="user.userrole_id==1">admin</td>
+             <td *ngIf="user.userrole_id==2">patient</td>
+             <td *ngIf="user.userrole_id==3">doctor</td> -->
+             <td>{{speciality.specialtyName}}</td>
+             <th>
+                <button 
+                mat-raised-button 
+                style="background-color: rgb(50, 86, 184); color: white; margin-right: 8px;"
+                (click)="updateUser(doc.doctorID)"
+                >
+                Update
+               </button>
+                <button 
+                mat-raised-button 
+                style="background-color: rgb(255, 0, 0); color: white;"
+                (click)="deleteUser(doc.doctorID)" >
+                Delete
+                </button>
+             </th>
+          </tr>
+       </tbody>
+    </table>
+ </div>
