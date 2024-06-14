@@ -1,10 +1,11 @@
+
 <div class="navigation">
     <div>
         <a href="#"><mat-icon>local_hospital</mat-icon>Hospital Appointment</a>
     </div>
     <button mat-raised-button aria-current="page" href="#">Home</button>
     <button mat-raised-button aria-current="page" [routerLink]="['/doctors']">Doctors</button>
-    <button mat-raised-button aria-current="page"[routerLink]="['/patients']">Patients</button>
+    <button mat-raised-button aria-current="page"[routerLink]="['/patients']">All Users</button>
     <button mat-raised-button aria-current="page" href="#">About Us</button>
     <div class="navbutton">
        <a class="username" href="#"><mat-icon>person</mat-icon>{{user}}</a>
@@ -13,50 +14,39 @@
  </div>
 
  <div class="container">
-    <button mat-raised-button [routerLink]="['/register']" style="background-color: rgb(140, 187, 39); margin-bottom: 20px;" (click)="saveDoctor()">Register New Doctor</button>
+    <button mat-raised-button [routerLink]="['/addDoctor']" style="background-color: rgb(140, 187, 39); margin-bottom: 20px;">Register New Doctor</button>
     <table>
        <thead>
           <tr>
              <th>srno</th>
              <th>doctorID</th>
-             <th>First Name</th>
-             <th>Last Name</th>
-             <th>Username</th>
-             <th>email</th>
+             <th>Name</th>
+             <th>Email</th>
+             <th>specialty</th>
              <th>contact</th>
-             <th>DOB</th>
-             <th>gender</th>
-             <th>Specility</th> 
              <th>Actions</th>
           </tr>
        </thead>
        <tbody>
-          <tr *ngFor="let doc of doctors; let i=index">
+          <tr *ngFor="let docinfo of docInformation; let i=index">
              <td>{{i+1}}</td>
-             <td>{{doc.doctorID}}</td>
-             <td>{{docuser.firstName}}</td>
-             <td>{{docuser.lastName}}</td>
-             <td>{{docuser.userName}}</td>
-             <td>{{docuser.email}}</td>
-             <td>{{docuser.contact}}</td>
-             <td>{{docuser.dateOfBirth}}</td>
-             <td>{{docuser.gender}}</td>
-           <!--  <td *ngIf="user.userrole_id==1">admin</td>
-             <td *ngIf="user.userrole_id==2">patient</td>
-             <td *ngIf="user.userrole_id==3">doctor</td> -->
-             <td>{{speciality.specialtyName}}</td>
+             <td>{{docinfo.doctorId}}</td>
+             <td>{{docinfo.doctorName}}</td>
+             <td>{{docinfo.doctorEmail}}</td>
+             <td>{{docinfo.specialtyName}}</td>
+             <td>{{docinfo.contact}}</td>
              <th>
                 <button 
                 mat-raised-button 
                 style="background-color: rgb(50, 86, 184); color: white; margin-right: 8px;"
-                (click)="updateUser(doc.doctorID)"
+                (click)="updateUser(docinfo.doctorId)"
                 >
                 Update
                </button>
                 <button 
                 mat-raised-button 
                 style="background-color: rgb(255, 0, 0); color: white;"
-                (click)="deleteUser(doc.doctorID)" >
+                (click)="deleteUser(docinfo.doctorId)" >
                 Delete
                 </button>
              </th>
@@ -64,3 +54,87 @@
        </tbody>
     </table>
  </div>
+
+ <div *ngIf="isShowUpdateform" class="container">
+   <form class="mat-elevation-z7" style="background-color: rgb(208, 204, 240); padding: 20px;" [formGroup]="userForm" (ngSubmit)="saveUser()">
+      <h2>Update Doctor</h2>
+      <div class="form-group">
+            <label for="firstName" class="form-label">FirstName : </label>
+            <input type="text" formControlName="firstName"  class="form-control">
+            <div *ngIf="userForm.controls['firstName'].invalid && (userForm.controls['firstName'].dirty || userForm.controls['firstName'].touched)">
+                <p *ngIf="userForm.controls['firstName'].errors?.['required']">first name is required</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName" class="form-label">LastName : </label>
+            <input type="text" formControlName="lastName" class="form-control">
+            <div *ngIf="userForm.controls['lastName'].invalid && (userForm.controls['lastName'].dirty || userForm.controls['lastName'].touched)">
+                <p *ngIf="userForm.controls['lastName'].errors?.['required']">last name is required</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="userName" class="form-label">Username : </label>
+            <input type="text" formControlName="userName" class="form-control">
+            <div *ngIf="userForm.controls['userName'].invalid && (userForm.controls['userName'].dirty || userForm.controls['userName'].touched)">
+                <p *ngIf="userForm.controls['userName'].errors?.['required']">username is required</p>
+                <p *ngIf="userForm.controls['userName'].errors?.['minlength']">username should be more than 8 character</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email" class="form-label">Email : </label>
+            <input type="email" formControlName="email" class="form-control">
+            <div *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched)">
+                <p *ngIf="userForm.controls['email'].errors?.['required']">email is required</p>
+                <p *ngIf="userForm.controls['email'].errors?.['email']">email should be proper</p>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="contact" class="form-label">Contact : </label>
+            <input type="text" formControlName="contact" class="form-control">
+            <div *ngIf="userForm.controls['contact'].invalid && (userForm.controls['contact'].dirty || userForm.controls['contact'].touched)">
+                <p *ngIf="userForm.controls['contact'].errors?.['required']">contact is required</p>
+                <p *ngIf="userForm.controls['contact'].errors?.['minlength']">contact should be more than 10 character</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="SelectSpecialities" class="form-label">Select Specialities : </label>
+            <mat-form-field appearance="fill">
+                <mat-label>Select Specialities</mat-label>
+                <mat-select [formControl]="selectedSpecialitiesControl" multiple>
+                  <mat-option *ngFor="let speciality of specilities" [value]="speciality">
+                    {{ speciality.specialtyName }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="selectedSpecialitiesControl.hasError('required')">
+                  At least one speciality must be selected.
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <div class="form-group">
+            <label for="dateOfBirth" class="form-label">DOB : </label>
+            <mat-form-field appearance="fill">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker [startView]="'multi-year'" [startAt]="startAt"></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="userForm.controls['dateOfBirth'].invalid && (userForm.controls['dateOfBirth'].dirty || userForm.controls['dateOfBirth'].touched)">
+                <p *ngIf="userForm.controls['dateOfBirth'].errors?.['required']">DOB is required</p>
+              </div>
+        </div>
+        <div class="form-group">
+            <label for="gender" class="form-label">Gender : </label>
+                <mat-radio-group aria-label="Select an option" formControlName="gender">
+                    <mat-radio-button value="Male">Male</mat-radio-button>
+                    <mat-radio-button value="Female">Female</mat-radio-button>
+                </mat-radio-group>
+                 <div *ngIf="userForm.controls['gender'].invalid && (userForm.controls['gender'].dirty || userForm.controls['gender'].touched)">
+                    <p *ngIf="userForm.controls['gender'].errors?.['required']">Gender is required</p>
+                  </div> 
+        </div>
+        <div class="form-group mb-3">
+            <button type="submit" mat-raised-button color="primary" class="formbutton">Register</button>
+            <button type="reset" mat-raised-button color="warn" class="formbutton">Reset</button>
+        </div>
+   </form>
+</div>

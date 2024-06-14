@@ -11,14 +11,15 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { UpdateDataComponent } from '../update-data/update-data.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { error } from 'console';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
   imports: [HttpClientModule,CommonModule,RouterModule,MatButtonModule,MatIconModule,MatDialogModule,MatNativeDateModule],
   providers:[BackendDataService],
-  templateUrl: './patient-details.component.html',
-  styleUrl: './patient-details.component.css'
+  templateUrl: './user-details.component.html',
+  styleUrl: './user-details.component.css'
 })
 export class PatientDetailsComponent implements OnInit{
 
@@ -58,13 +59,15 @@ export class PatientDetailsComponent implements OnInit{
        var result = confirm('Are you sure to delete the user of userId : '+userId+'?');
        if(result){
           this.service.deleteUser(userId).pipe(catchError(error =>{
-             alert('Something else wrong.Please try again later');
+             alert('Something else wrong.Please try again later. If Doctor delete from Doctor list first');
              console.log(error);
              return of(null);
           })).subscribe(res =>{
              console.log(res);
-             alert('User Deleted Succssfully');
-             this.getUsers();
+             if(res){
+               alert('User Deleted Succssfully');
+               this.getUsers();
+             }
           })
        }
        else{
@@ -76,7 +79,13 @@ export class PatientDetailsComponent implements OnInit{
       }
 
       getSession(){
-        this.service.getSession().subscribe(data =>{
+        this.service.getSession().pipe(catchError(error =>{
+         alert('Please Login First');
+         this.router.navigate(['/login']);
+         console.log(error);
+         return of(null);
+        }))
+        .subscribe(data =>{
           this.user=data.username;
           console.log(this.user);
         });

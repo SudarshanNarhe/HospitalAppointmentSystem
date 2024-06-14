@@ -17,7 +17,11 @@ export class BackendDataService {
  //user! : Users;
  loginUser! : Login;
 
-  constructor(private http : HttpClient, private doctor : DoctorsComponent) 
+  constructor
+  (
+    private http : HttpClient, 
+    //private doctor : DoctorsComponent
+  ) 
   {
    
   }
@@ -29,13 +33,7 @@ export class BackendDataService {
 
   //add user 
   addUser(user : Users):Observable<any>{
-
-    if(this.doctor.saveDoc){
-      user.userrole_id=3;
-    }
-    else{
-      user.userrole_id=2
-    }
+   
     return this.http.post<any>(this.url+"User/AddUser",user).pipe(catchError(this.errorHandler));
 
   }
@@ -61,6 +59,21 @@ export class BackendDataService {
   //get all doctors
   getAllDoctors():Observable<any>{
     return this.http.get<any>(`${this.url}Doctor/GetDoctors`).pipe(catchError(this.errorHandler));
+  }
+
+  //get doctorsInformation
+  getAllDoctorsInformation(id : number):Observable<any>{
+    return this.http.get<any>(`${this.url}Doctor/GetDoctorInformation/${id}`).pipe(catchError(this.errorHandler));
+  }
+
+  //delete doctor
+  deleteDoctor(id : number):Observable<any>{
+    return this.http.delete<any>(`${this.url}Doctor/DeleteDoctor/${id}`).pipe(catchError(this.errorHandler));
+  }
+
+  //get doctor by id
+  getdoctorById(id : number):Observable<Doctor>{
+    return this.http.get<any>(`${this.url}Doctor/GetDoctorById/${id}`).pipe(catchError(this.errorHandler));
   }
 
   login(username : string, password : string):Observable<any>{

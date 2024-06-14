@@ -60,3 +60,27 @@
   th {
     background-color: #f2f2f2;
   }
+
+  
+.form-group{
+  padding: 15px;
+}
+
+p{
+  font-weight: 450;
+  color: red;
+}
+
+.formbutton{
+  margin-top: 10px;
+  margin-left: 90px;
+} 
+
+label{
+  font-size: 17px;
+  font-family: 'Times New Roman', Times, serif;  
+}
+
+.radio{
+  font-size: medium;
+}

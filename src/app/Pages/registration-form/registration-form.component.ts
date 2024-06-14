@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -26,7 +26,6 @@ import { MatInputModule } from '@angular/material/input';
 import { Patient } from '../../Model/patient';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { DoctorsComponent } from '../doctors/doctors.component';
 
 @Component({
   selector: 'app-registration-form',
@@ -72,15 +71,18 @@ export class RegistrationFormComponent implements OnInit {
     private builder: FormBuilder,
     private service: BackendDataService,
     private datePipe: DatePipe,
-    private router : Router
-  ) {
+    private router : Router,
+  )
+  {
     this.startAt = new Date(1990, 0, 1);
+   
   }
 
   ngOnInit(): void {
     this.getRoles();
     this.getSpecilities();
-    this.initializedForm();
+    this.initializedForm(); 
+    this.saveDoctor();
   }
 
   initializedForm() {
@@ -104,8 +106,8 @@ export class RegistrationFormComponent implements OnInit {
         [Validators.required, this.confirmPassValidator.bind(this)],
       ],
       dateOfBirth: ['',Validators.required],
-      gender: ['',Validators.required]
-    
+      gender: ['',Validators.required],
+      userrole_id:[''] 
     });
   }
 
@@ -121,7 +123,7 @@ export class RegistrationFormComponent implements OnInit {
 
   getRoles() {
     this.service.getUserRoles().subscribe((res) => (this.userRoles = res));
-    console.log(this.userRoles);
+    //console.log(this.userRoles);
   }
 
   // onSelectRole(role: string) {
@@ -147,7 +149,7 @@ export class RegistrationFormComponent implements OnInit {
   getSpecilities() {
     this.service.getSpecilities().subscribe((res) => {
       this.specilities = res;
-      console.log(this.specilities);
+    //  console.log(this.specilities);
     });
   }
 
@@ -156,72 +158,62 @@ export class RegistrationFormComponent implements OnInit {
     this.selectedSpecialitiesControl.reset([]);
   }
 
+
   saveUser() {
     console.log('in saveuser');
     console.log(this.userForm.valid);
-   // console.log(this.selectRole);
-  //  console.log(this.userForm.get('securityKey')?.value);
-
   this.DOB = this.datePipe.transform(this.userForm.value.dateOfBirth, 'yyyy-MM-dd')+"T00:00:00";
   console.log(this.DOB);
   this.userForm.value.dateOfBirth=this.DOB;
-
-   // const gender = this.userForm.value.gender;
-   // console.log(gender);
    console.log(this.userForm.value);
     if (this.userForm.valid) {
       console.log('in if...');
-      console.log(this.userForm.value);
       
+      this.userForm.value.userrole_id=2;
+      console.log(this.userForm.value);
       this.service.addUser(this.userForm.value).subscribe((res) => {
-        // if(this.selectRole==='doctor'){
-        //   this.saveDoctor();
-        // }
-        // else if(this.selectRole==='patient'){
-        //   this.savePatient();
-        // }
-
         alert('User Register Successful');
         this.userForm.reset();
         this.router.navigate(['/login']);
 
       });
-    //  this.saveAdmin();
     } else {
       this.userForm.markAllAsTouched();
     }
   }
 
   saveDoctor() {
-    const name = this.userForm.get('email')?.value;
-    this.service.getUserByName(name).subscribe((res) => {
-      this.user = res;
-      console.log(this.user);
-      console.log(this.selectedSpecialitiesControl.value);
-      const selectedSpecialities = this.selectedSpecialitiesControl.value;
-      // Check if the value is an array and transform it
-      if (Array.isArray(selectedSpecialities)) {
-        const transformedSpecialities = selectedSpecialities.map(
-          (speciality) => {
-            // Create a new object without the specialityName
-            const { specialtyID, specialtyName } = speciality;
-            return specialtyID;
-          }
-        );
+ 
+    // const name = this.userForm.get('email')?.value;
+    // this.service.getUserByName(name).subscribe((res) => {
+    //   this.user = res;
+    //   console.log(this.user);
+    //   console.log(this.selectedSpecialitiesControl.value);
+    //   const selectedSpecialities = this.selectedSpecialitiesControl.value;
+    //   // Check if the value is an array and transform it
+    //   if (Array.isArray(selectedSpecialities)) {
+    //     const transformedSpecialities = selectedSpecialities.map(
+    //       (speciality) => {
+    //         // Create a new object without the specialityName
+    //         const { specialtyID, specialtyName } = speciality;
+    //         return specialtyID;
+    //       }
+    //     );
 
-        // Print the transformed specialities
-        transformedSpecialities.forEach((speciality) => {
-          this.doctor = new Doctor(0, this.user.userId, speciality);
-          console.log(speciality);
-          console.log(this.doctor);
-          this.service.addDoctor(this.doctor).subscribe((res) => {
-            alert('Form Submitted Successful');
-            this.hideDoctorDetails();
-            this.userForm.reset();
-          });
-        });
-      }
-    });
+    //     // Print the transformed specialities
+    //     transformedSpecialities.forEach((speciality) => {
+    //       this.doctor = new Doctor(0, this.user.userId, speciality);
+    //       console.log(speciality);
+    //       console.log(this.doctor);
+    //       this.service.addDoctor(this.doctor).subscribe((res) => {
+    //         alert('Form Submitted Successful');
+    //         this.hideDoctorDetails();
+    //         this.userForm.reset();
+    //       });
+    //     });
+    //   }
+    // });
+
   }
 
   savePatient(){
